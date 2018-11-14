@@ -1,10 +1,16 @@
 package com.jobo
 
-import cats.implicits._, cats._
+import alleycats.Empty
+import cats.syntax.foldable._
+import cats.syntax.eq._
+import cats.instances.list._
+import cats.instances.int._
+import cats.{Eq, Monoid}
 
 object Brackets extends App {
 
-  case class B(r: Int, l: Int)
+
+  case class B(l: Int, r: Int)
 
   implicit val eqB = Eq[B] {
     cats.derived.auto.eq
@@ -16,22 +22,21 @@ object Brackets extends App {
       B(0, 0)
 
     def combine(x: B, y: B): B = (x, y) match {
-      case (B(a, b), B(c, d)) if b <= c =>
-        B(a + c - b, d)
+      case (B(a, b), B(c, d)) if a <= d =>
+        B(c, b + d - a)
       case (B(a, b), B(c, d)) =>
-        B(a, d + b - c)
+        B(c + a - d, b)
     }
   }
 
   def parse(char: Char): B = char match {
-    case '(' => B(0,1)
-    case ')' => B(1,0)
+    case '(' => B(1,0)
+    case ')' => B(0,1)
     case _   => B(0,0)
   }
 
   def balanced(list: List[Char]): Boolean =
-    list.foldMap(parse) === Monoid.empty[B]
-
+    list.foldMap(parse) === Empty[B].empty
 
 
   if (balanced(args.mkString("").toList)) {
