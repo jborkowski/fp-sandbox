@@ -1,10 +1,10 @@
 package com.jobo
 
-import cats.implicits._, cats._, cats.syntax._
+import cats.implicits._, cats._
 
 object Brackets extends App {
 
-  case class B(l: Int, r: Int)
+  case class B(r: Int, l: Int)
 
   implicit val eqB = Eq[B] {
     cats.derived.auto.eq
@@ -19,7 +19,7 @@ object Brackets extends App {
       case (B(a, b), B(c, d)) if b <= c =>
         B(a + c - b, d)
       case (B(a, b), B(c, d)) =>
-        B(a, d + b -c)
+        B(a, d + b - c)
     }
   }
 

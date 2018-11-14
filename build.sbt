@@ -16,7 +16,7 @@ lazy val commonSettings = Seq(
 )
 
 val consoleSettings = Seq(
-  initialCommands := s"import com.example._",
+  initialCommands := s"import com.jobo._",
   scalacOptions in (Compile, console) -= "-Ywarn-unused-import"
 )
 
