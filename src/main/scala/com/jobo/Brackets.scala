@@ -29,8 +29,8 @@ object Brackets extends App {
     case _   => B(0,0)
   }
 
-  def balanced(list: List[Char]) =
-    list.foldMap(parse) === B(0,0)
+  def balanced(list: List[Char]): Boolean =
+    list.foldMap(parse) === Monoid.empty[B]
 
 
 
